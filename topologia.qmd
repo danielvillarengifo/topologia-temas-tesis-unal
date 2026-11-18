@@ -412,4 +412,4 @@ Desde 2023, las tesis de Estadística y Matemáticas de la Universidad Nacional 
 
 # Disponibilidad de datos y código {.unnumbered}
 
-Los metadatos y los resúmenes son públicos en el Repositorio Institucional de la Universidad Nacional de Colombia. El código que los baja, los resultados agregados y el código de todos los análisis y figuras acompañan este artículo.
+Los metadatos y los resúmenes son públicos en el Repositorio Institucional de la Universidad Nacional de Colombia. El código que los baja, los resultados agregados y el código de todos los análisis y figuras están en <https://github.com/danielvillarengifo/topologia-temas-tesis-unal>.

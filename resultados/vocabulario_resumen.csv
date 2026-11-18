@@ -1,0 +1,11 @@
+control,comparacion,ventana_a,ventana_b,n_tesis_a,n_tesis_b,palabras_probadas,suben,bajan,p_menor_que_005
+todas las tesis,sin IA de por medio,2016-2018,2019-2021,126,108,1991,0,0,0.09944751381215469
+todas las tesis,con IA de por medio,2019-2021,2023-2026,108,128,1991,323,71,0.32446007031642393
+longitud fija,sin IA de por medio,2016-2018,2019-2021,98,95,1991,0,0,0.045705675539929685
+longitud fija,con IA de por medio,2019-2021,2023-2026,95,123,1991,96,34,0.19387242591662482
+Estadística,sin IA de por medio,2016-2018,2019-2021,71,66,1991,0,0,0.07232546459065796
+Estadística,con IA de por medio,2019-2021,2023-2026,66,97,1991,193,56,0.257659467604219
+Matemáticas,sin IA de por medio,2016-2018,2019-2021,55,42,1991,0,0,0.08789552988448016
+Matemáticas,con IA de por medio,2019-2021,2023-2026,42,31,1991,10,0,0.11300853842290307
+sin aprendizaje automático,sin IA de por medio,2016-2018,2019-2021,125,105,1991,0,0,0.09593169261677549
+sin aprendizaje automático,con IA de por medio,2019-2021,2023-2026,105,99,1991,241,61,0.2682069311903566

@@ -1,0 +1,19 @@
+# Lo que baja `make corpus` no se sube: textos de tesis y tablas con resúmenes.
+corpus/datos/*.jsonl
+corpus/datos/tesis*.csv
+corpus/datos/parrafos_cuerpo.csv
+corpus/datos/texto_descargas.csv
+corpus/datos/conteos_cuerpo.csv.gz
+corpus/datos/palabras_por_tesis.csv
+corpus/datos/*.nosync/
+resultados/**/textos.csv
+resultados/**/puntajes_*.csv
+resultados/**/generador_excluido.csv
+resultados/**/placebo_temporal.csv
+.quarto/
+*_files/
+*.typ
+datos/cache.nosync/
+__pycache__/
+.Rhistory
+.DS_Store

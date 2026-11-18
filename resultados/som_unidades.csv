@@ -1,0 +1,65 @@
+unidad,fila,columna,2014-2017,2018-2021,2023-2026,terminos,residuo
+0,0,0,8,10,1,"distribución, distribuciones, parámetros, tar",-1.8077955589663341
+1,0,1,6,5,1,"falla, confianza, intervalos, riesgos",-1.0618361023938545
+2,0,2,6,3,4,"control, carta, cartas, monitoreo",0.4303395320577548
+3,0,3,6,5,6,"muestreo, estimación, estimador, metodología",0.4125805195550345
+4,0,4,4,2,1,"diseños, diseños óptimos, óptimos, optimalidad",-0.3256618591133731
+5,0,5,2,5,1,"posets, particiones, carcaj, reiten",-1.0618361023938545
+6,0,6,2,4,8,"álgebras, brauer, álgebra, configuración",1.0493548793653127
+7,0,7,4,10,7,"pbw, extensiones, álgebras, torcidas",-0.29894501234661675
+8,1,0,3,5,4,"regresión, distribuciones, distribución, beta",-0.07311926300929424
+9,1,1,4,3,7,"regresión, regresión lineal, modelo regresión, lineal",1.1131755689220608
+10,1,2,2,2,0,"supuestos, datos, respuesta, modelo",-0.960200924600074
+11,1,3,0,3,0,"metodología, estimación, proporción, pruebas",-1.1760011579094025
+12,1,4,1,1,0,"descripción, negociación, juego, etapa",-0.6789645850863051
+13,1,5,1,1,6,"conteo, palabras, números, funciones generatrices",1.5436950186658909
+14,1,6,2,7,2,"números, cuerpo, cuerpos, conjetura",-1.0550065091341048
+15,1,7,0,1,0,"automorfismos, anillo, artin, endomorfismos",-0.6789645850863051
+16,2,0,6,6,3,"modelos, modelos lineales, longitudinales, datos",-0.5640628860716995
+17,2,1,4,2,4,"modelos, regresión, variables, modelos regresión",0.7420059510704041
+18,2,2,4,4,2,"ítem, respuesta ítem, teoría respuesta, trazo",-0.4605554179057683
+19,2,3,2,5,1,"prueba, hipótesis, pruebas, potencia",-1.0618361023938545
+20,2,4,2,2,0,"analizamos, rango, momentos, mostramos",-0.960200924600074
+21,2,5,2,5,3,"polinomios, funciones, polinomios ortogonales, ortogonales",-0.3582288064854122
+22,2,6,0,2,1,"conjuntos, lógica, teoría, conexión",-0.3256618591133731
+23,2,7,5,4,3,"grupo, grupos, teoría, representaciones",-0.12633821124631325
+24,3,0,1,3,3,"espacial, modelos, espaciales, modelar",0.14072526658231793
+25,3,1,0,1,3,"datos, migración, panel, historia",0.8513171336082134
+26,3,2,0,1,3,"pruebas saber, saber, estudiantes, pruebas",0.8513171336082134
+27,3,3,1,2,2,"datos, método, expresión, genes",0.11490169901460548
+28,3,4,2,2,3,"clasificación, discriminante, soporte, soporte vectorial",0.4577989991497106
+29,3,5,4,1,1,"superficies, desarrollables, superficies desarrollables, superficie",0.08124777054308319
+30,3,6,0,7,6,"variedad, variedades, geometría, fibrados",0.002897090681364226
+31,3,7,4,9,2,"espacios, espacio, topológicos, espacios topológicos",-1.3637203432620604
+32,4,0,4,2,7,"funcionales, espacial, temporal, datos",1.3997116061779216
+33,4,1,3,7,6,"colombia, mortalidad, ciudad, años",0.002897090681364226
+34,4,2,4,5,3,"análisis, análisis factorial, múltiple, factorial",-0.3582288064854122
+35,4,3,3,8,7,"redes, red, datos, análisis",0.03236453576250927
+36,4,4,3,1,3,"red, redes, matroides, imágenes",0.8513171336082134
+37,4,5,0,0,0,"mapa, caos, robusto, capítulo",
+38,4,6,1,2,1,"hiperbólicos, seccional, hiperbólico, variedad",-0.3256618591133731
+39,4,7,4,2,4,"espacios, operador, operadores, spaces",0.7420059510704041
+40,5,0,4,8,11,"series, series tiempo, tiempo, modelo",0.7572583093055998
+41,5,1,0,0,2,"fraude, eventos, redes neuronales, neuronales",1.1226964656862404
+42,5,2,1,1,4,"información, cáncer, enfermedades, análisis",1.1164689877222536
+43,5,3,2,2,9,"aprendizaje, modelo, métodos, supervisado",1.7448061666678556
+44,5,4,3,1,1,"imágenes, migración, problemas, imagen",0.08124777054308319
+45,5,5,6,1,2,"problemas inversos, inversos, problemas, regularización",0.5246774396826563
+46,5,6,0,0,0,"leyes conservación, conservación, leyes, sistemas",
+47,5,7,3,0,3,"soluciones, existencia, problema, existencia soluciones",1.3750167384786858
+48,6,0,2,2,5,"markov, var, modelos, modelo",0.9870172753618229
+49,6,1,4,4,11,"riesgo, clientes, empresas, modelos",1.5534977166004507
+50,6,2,4,1,1,"recursos, tiempo, matemáticos, desarrollo",0.08124777054308319
+51,6,3,3,5,7,"enfermedad, modelo, epidemiológicos, reproductivo",0.624185229967298
+52,6,4,0,1,2,"capítulo, cuantificación, difusión, procesamiento",0.5246774396826563
+53,6,5,3,3,0,"solución, programación, problema, ecuación",-1.1760011579094025
+54,6,6,2,3,2,"solución, problema, soluciones, cauchy",-0.2008709894228323
+55,6,7,2,2,0,"soluciones, ecuación, soluciones ecuación, onda",-0.960200924600074
+56,7,0,11,6,6,"volatilidad, valoración, mercado, precios",0.19901558056928328
+57,7,1,1,11,0,"riesgo, crédito, compañía, ruina",-2.251870774670608
+58,7,2,2,3,0,"económicos, sistemas, beneficios, costos",-1.1760011579094025
+59,7,3,11,6,3,"sistema, dinámica, bifurcaciones, sistemas",-0.5640628860716995
+60,7,4,9,3,2,"ecuaciones, diferenciales, ecuaciones diferenciales, solución",-0.2008709894228323
+61,7,5,6,9,2,"elementos finitos, método, finitos, solución",-1.3637203432620604
+62,7,6,0,0,0,,
+63,7,7,8,6,3,"buen planteamiento, planteamiento, ecuación, buen",-0.5640628860716995

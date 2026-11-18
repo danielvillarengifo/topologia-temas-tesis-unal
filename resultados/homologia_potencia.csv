@@ -1,0 +1,29 @@
+fraccion_plantada,estadistico,replicas,rechazos,tesis_por_nube
+0.0,diferencia de distancia media,40,1,104
+0.1,diferencia de distancia media,40,4,104
+0.2,diferencia de distancia media,40,4,104
+0.3,diferencia de distancia media,40,17,104
+0.0,diferencia de L0,40,1,104
+0.1,diferencia de L0,40,1,104
+0.2,diferencia de L0,40,2,104
+0.3,diferencia de L0,40,3,104
+0.0,diferencia de L1,40,1,104
+0.1,diferencia de L1,40,1,104
+0.2,diferencia de L1,40,3,104
+0.3,diferencia de L1,40,6,104
+0.0,W0,40,0,104
+0.1,W0,40,2,104
+0.2,W0,40,6,104
+0.3,W0,40,10,104
+0.0,W1,40,0,104
+0.1,W1,40,1,104
+0.2,W1,40,7,104
+0.3,W1,40,19,104
+0.0,W0 a escala,40,1,104
+0.1,W0 a escala,40,1,104
+0.2,W0 a escala,40,3,104
+0.3,W0 a escala,40,3,104
+0.0,W1 a escala,40,0,104
+0.1,W1 a escala,40,0,104
+0.2,W1 a escala,40,7,104
+0.3,W1 a escala,40,21,104

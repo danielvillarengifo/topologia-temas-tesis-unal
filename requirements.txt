@@ -9,3 +9,4 @@ persim
 torch
 transformers
 joblib
+pypdf

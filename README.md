@@ -4,7 +4,7 @@
 
 **ES** — Temas, topología y vocabulario de las tesis de Estadística y Matemáticas de la UNAL antes y después de la IA generativa, con un mapa autoorganizado, representaciones de un transformador, homología persistente y conteo de palabras. Cada comparación tiene un control entre dos ventanas previas.
 
-Artículo: [`topologia.pdf`](topologia.pdf). Autor: Daniel Felipe Villa Rengifo.
+Artículo: [`topologia.pdf`](topologia.pdf). English version: [`topologia_en.pdf`](topologia_en.pdf). Autor: Daniel Felipe Villa Rengifo.
 
 ## Resultado
 
@@ -31,7 +31,7 @@ Artículo: [`topologia.pdf`](topologia.pdf). Autor: Daniel Felipe Villa Rengifo.
 
 ```bash
 pip install -r requirements.txt
-make            # compila el artículo con los resultados incluidos
+make            # compila el artículo y su versión en inglés
 make corpus     # baja las tesis del repositorio de la UNAL (cerca de una hora)
 make todo       # rehace todos los análisis y figuras
 ```

@@ -1,10 +1,10 @@
 # Dibuja las figuras del artículo de topología a partir de resultados/.
 #
-# Lee: som_unidades.csv, som_destacadas.csv, clasificacion_periodo.csv, homologia_contrastes.csv,
+# Lee: som_unidades.csv, som_destacadas.csv, som_contrastes.csv, clasificacion_periodo.csv, homologia_contrastes.csv,
 #   marcadores_por_anio.csv, vocabulario_cambios.csv y logodds_resumenes.csv.
-# Escribe figuras/fig_*.png.
+# Escribe fig_*.png en la carpeta de figuras, con los rótulos en español (es) o en inglés (en).
 #
-# Uso: Rscript figuras.R <carpeta resultados> <carpeta figuras>
+# Uso: Rscript figuras.R <carpeta resultados> <carpeta figuras> <es|en>
 
 suppressPackageStartupMessages({
   library(dplyr)
@@ -16,7 +16,9 @@ suppressPackageStartupMessages({
 args <- commandArgs(trailingOnly = TRUE)
 carpeta <- args[1]
 destino <- args[2]
-dir.create(destino, showWarnings = FALSE)
+IDIOMA <- args[3]
+source("codigo/rotulos.R")
+dir.create(destino, showWarnings = FALSE, recursive = TRUE)
 
 AZUL <- "#0072B2"
 NARANJA <- "#D55E00"
@@ -25,7 +27,10 @@ COLOR_COMPARACION <- c("sin IA de por medio" = GRIS, "con IA de por medio" = NAR
 PALABRAS_POR_LADO <- 15
 SEMILLA <- 20261118
 
-decimal <- function(x, cifras = 2) formatC(x, format = "f", digits = cifras, decimal.mark = ",")
+DECIMAL <- tr(",", ".")
+decimal <- function(x, cifras = 2) formatC(x, format = "f", digits = cifras, decimal.mark = DECIMAL)
+VENTANAS <- c("sin IA de por medio" = tr("Ventanas sin IA de por medio", "Windows without AI in between"),
+              "con IA de por medio" = tr("Ventanas con IA de por medio", "Windows with AI in between"))
 
 theme_set(
   theme_minimal(base_size = 10) +
@@ -67,14 +72,17 @@ fig_mapa <- ggplot(unidades, aes(columna, fila)) +
   scale_fill_gradient2(
     low = AZUL, mid = "grey95", high = NARANJA, midpoint = 0, na.value = "white",
     breaks = c(min(unidades$residuo, na.rm = TRUE), 0, max(unidades$residuo, na.rm = TRUE)),
-    labels = c("Menos", "Lo esperado", "Más"),
-    name = "Tesis de 2023-2026 frente a 2018-2021"
+    labels = tr(c("Menos", "Lo esperado", "Más"), c("Fewer", "As expected", "More")),
+    name = tr("Tesis de 2023-2026 frente a 2018-2021", "Theses of 2023-2026 against 2018-2021")
   ) +
   coord_equal() +
   scale_y_reverse() +
   rotulos(
-    title = "Uno de los veinte mapas de temas, con las unidades donde más cambian las tesis recientes",
-    subtitle = "Cada cuadro es una unidad del mapa autoorganizado; las unidades vecinas tienen temas parecidos",
+    title = sprintf(tr("Uno de los %d mapas de temas, con las unidades donde más cambian las tesis recientes",
+                       "One of the %d topic maps, with the units where recent theses change most"),
+                    n_distinct(leer("som_contrastes.csv")$semilla)),
+    subtitle = tr("Cada cuadro es una unidad del mapa autoorganizado; las unidades vecinas tienen temas parecidos",
+                  "Each square is a unit of the self-organizing map; neighboring units have similar topics"),
     ancho = 56
   ) +
   theme(axis.title = element_blank(), axis.text = element_blank(), panel.grid = element_blank(),
@@ -85,10 +93,12 @@ guardar(fig_mapa, "fig_mapa.png", alto = 5.8)
 clasificacion <- leer("clasificacion_periodo.csv") |>
   filter(comparacion != "diferencia") |>
   mutate(
-    clasificador = if_else(clasificador == "perceptron", "Perceptrón multicapa", "Regresión logística"),
+    clasificador = factor(clasificador, levels = c("perceptron", "logistica"),
+                          labels = tr(c("Perceptrón multicapa", "Regresión logística"), c("Multilayer perceptron", "Logistic regression"))),
     comparacion = factor(comparacion, levels = names(COLOR_COMPARACION)),
     representacion = factor(representacion, levels = c("todas las palabras", "sin palabras de estilo", "incrustaciones", "composición"),
-                            labels = c("TF-IDF y LSA", "TF-IDF y LSA sin palabras de estilo", "Incrustaciones", "Solo área, nivel, sede y longitud"))
+                            labels = tr(c("TF-IDF y LSA", "TF-IDF y LSA sin palabras de estilo", "Incrustaciones", "Solo área, nivel, sede y longitud"),
+                                        c("TF-IDF and LSA", "TF-IDF and LSA without style words", "Embeddings", "Only area, level, campus and length")))
   )
 fig_clasificacion <- ggplot(clasificacion, aes(auc, clasificador, colour = comparacion)) +
   geom_vline(xintercept = 0.5, linetype = "dashed", colour = "grey50") +
@@ -96,27 +106,23 @@ fig_clasificacion <- ggplot(clasificacion, aes(auc, clasificador, colour = compa
   geom_point(size = 2, position = position_dodge(width = 0.5)) +
   geom_text(aes(label = decimal(auc), x = auc_sup), hjust = -0.3, size = 2.7, position = position_dodge(width = 0.5), show.legend = FALSE) +
   facet_wrap(~representacion, ncol = 1, scales = "free_y") +
-  scale_colour_manual(values = COLOR_COMPARACION, name = NULL, labels = function(x) paste("Ventanas", x)) +
+  scale_colour_manual(values = COLOR_COMPARACION, name = NULL, labels = function(x) VENTANAS[x]) +
   scale_x_continuous(limits = c(0.4, 0.9), labels = function(x) decimal(x, 1)) +
   rotulos(
-    title = "Qué tan bien se predice la ventana de una tesis por su resumen",
-    subtitle = "Área bajo la curva ROC (AUC) al predecir la ventana de una tesis, fuera de pliegue, con intervalo del 95 %",
-    x = "AUC (0,5 es el azar)", y = NULL
+    title = tr("Qué tan bien se predice la ventana de una tesis por su resumen", "How well the abstract of a thesis predicts its window"),
+    subtitle = tr("Área bajo la curva ROC (AUC) al predecir la ventana de una tesis, fuera de pliegue, con intervalo del 95 %",
+                  "Area under the ROC curve (AUC) when predicting the window of a thesis, out of fold, with 95% interval"),
+    x = tr("AUC (0,5 es el azar)", "AUC (0.5 is chance)"), y = NULL
   )
 guardar(fig_clasificacion, "fig_clasificacion.png", alto = 4.6)
 
 # Homología persistente: dónde cae cada estadístico observado frente a su distribución nula
-ESTADISTICOS <- c(
-  "diferencia de distancia media" = "Distancia media (diferencia)", "diferencia de L0" = "L0, componentes (diferencia)",
-  "diferencia de L1" = "L1, ciclos (diferencia)", "W0" = "W0, componentes", "W1" = "W1, ciclos",
-  "W0 a escala" = "W0 a escala", "W1 a escala" = "W1 a escala"
-)
 contrastes <- leer("homologia_contrastes.csv") |>
   mutate(
     comparacion = factor(comparacion, levels = names(COLOR_COMPARACION)),
     estadistico = factor(ESTADISTICOS[estadistico], levels = rev(ESTADISTICOS)),
     nube = factor(nube, levels = c("tesis (LSA)", "tesis (incrustaciones)", "palabras"),
-                  labels = c("Tesis, LSA", "Tesis, incrustaciones", "Palabras")),
+                  labels = tr(c("Tesis, LSA", "Tesis, incrustaciones", "Palabras"), c("Theses, LSA", "Theses, embeddings", "Words"))),
     # Los estadísticos tienen unidades distintas: se dibuja la posición del observado
     # en su distribución nula, con 0 en el centro y -1 y 1 en los percentiles 2,5 y 97,5.
     posicion = (observado - (nula_inf + nula_sup) / 2) / ((nula_sup - nula_inf) / 2)
@@ -127,22 +133,25 @@ fig_homologia <- ggplot(contrastes, aes(posicion, estadistico, colour = comparac
   geom_vline(xintercept = 0, colour = "white") +
   geom_point(size = 2, position = position_dodge(width = 0.55)) +
   facet_wrap(~nube, nrow = 1) +
-  scale_colour_manual(values = COLOR_COMPARACION, name = NULL, labels = function(x) paste("Ventanas", x)) +
-  scale_x_continuous(labels = scales::label_number(decimal.mark = ",")) +
+  scale_colour_manual(values = COLOR_COMPARACION, name = NULL, labels = function(x) VENTANAS[x]) +
+  scale_x_continuous(labels = scales::label_number(decimal.mark = DECIMAL)) +
   rotulos(
-    title = "Dónde cae cada estadístico observado frente a barajar las tesis entre ventanas",
-    subtitle = "Franja gris: del percentil 2,5 al 97,5 de la distribución nula, llevada a la escala de -1 a 1",
-    x = "Posición del valor observado en su distribución nula", y = NULL
+    title = tr("Dónde cae cada estadístico observado frente a barajar las tesis entre ventanas",
+               "Where each observed statistic falls against shuffled windows"),
+    subtitle = tr("Franja gris: del percentil 2,5 al 97,5 de la distribución nula, llevada a la escala de -1 a 1",
+                  "Gray band: 2.5th to 97.5th percentile of the null distribution, rescaled to -1 to 1"),
+    x = tr("Posición del valor observado en su distribución nula", "Position of the observed value in its null distribution"), y = NULL
   )
 guardar(fig_homologia, "fig_homologia.png", ancho = 7, alto = 3.9)
 
 # Raíces marcadoras por año
 raices <- leer("marcadores_raices.csv") |> distinct(raiz, con_uso_tecnico)
-SERIES <- c("todas las raíces" = sprintf("Las %d raíces", nrow(raices)), "sin uso técnico" = "Sin las raíces de uso técnico")
+SERIES <- c("todas las raíces" = sprintf(tr("Las %d raíces", "All %d stems"), nrow(raices)),
+            "sin uso técnico" = tr("Sin las raíces de uso técnico", "Excluding stems with a technical use"))
 marcadores <- leer("marcadores_por_anio.csv") |>
   filter(area %in% c("todas", "Estadística", "Matemáticas")) |>
   mutate(
-    area = factor(area, levels = c("todas", "Estadística", "Matemáticas"), labels = c("Todas las tesis", "Estadística", "Matemáticas")),
+    area = factor(area, levels = c("todas", "Estadística", "Matemáticas"), labels = tr(c("Todas las tesis", "Estadística", "Matemáticas"), c("All theses", "Statistics", "Mathematics"))),
     serie = factor(SERIES[serie], levels = SERIES)
   )
 fig_marcadores <- ggplot(marcadores, aes(anio, tasa, colour = serie)) +
@@ -154,27 +163,32 @@ fig_marcadores <- ggplot(marcadores, aes(anio, tasa, colour = serie)) +
   scale_x_continuous(breaks = 2016:2026) +
   scale_y_continuous(limits = c(0, NA)) +
   rotulos(
-    title = "Tasa de raíces marcadoras en el texto corrido, por año y área",
-    subtitle = "Apariciones por cada 10.000 palabras de texto corrido, media por tesis con intervalo del 95 %",
-    x = "Año de publicación", y = "Apariciones por 10.000 palabras",
-    caption = sprintf("Raíces marcadoras: %d raíces que las guías de estilo asocian al texto de modelos de lenguaje; %d tienen además uso técnico en estadística y matemáticas.", nrow(raices), sum(raices$con_uso_tecnico))
+    title = tr("Tasa de raíces marcadoras en el texto corrido, por año y área", "Rate of marker stems in the running text, by year and area"),
+    subtitle = tr("Apariciones por cada 10.000 palabras de texto corrido, media por tesis con intervalo del 95 %",
+                  "Occurrences per 10,000 words of running text, mean per thesis with 95% interval"),
+    x = tr("Año de publicación", "Year of publication"), y = tr("Apariciones por 10.000 palabras", "Occurrences per 10,000 words"),
+    caption = sprintf(tr("Raíces marcadoras: %d raíces que las guías de estilo asocian al texto de modelos de lenguaje; %d tienen además uso técnico en estadística y matemáticas.",
+                         "Marker stems: %d stems that style guides associate with language-model text; %d also have a technical use in statistics and mathematics."),
+                      nrow(raices), sum(raices$con_uso_tecnico))
   )
 guardar(fig_marcadores, "fig_marcadores.png", alto = 4.8)
 
 # Palabras que más suben y bajan en el texto corrido
 cambios <- leer("vocabulario_cambios.csv") |> filter(comparacion == "con IA de por medio")
 extremas <- bind_rows(slice_max(cambios, z, n = PALABRAS_POR_LADO), slice_min(cambios, z, n = PALABRAS_POR_LADO)) |>
-  mutate(tipo = if_else(es_marcadora, "Raíz marcadora", "Otra palabra"))
+  mutate(tipo = factor(es_marcadora, levels = c(FALSE, TRUE), labels = tr(c("Otra palabra", "Raíz marcadora"), c("Other word", "Marker stem"))))
 fig_palabras <- ggplot(extremas, aes(log2_razon, reorder(palabra, log2_razon))) +
   geom_vline(xintercept = 0, colour = "grey50") +
   geom_segment(aes(x = 0, xend = log2_razon, yend = palabra), linewidth = 0.4, colour = "grey60") +
   geom_point(aes(colour = tipo), size = 2) +
-  scale_colour_manual(values = c("Raíz marcadora" = NARANJA, "Otra palabra" = "grey25"), name = NULL) +
+  scale_colour_manual(values = setNames(c("grey25", NARANJA), levels(extremas$tipo)), name = NULL) +
   scale_x_continuous(labels = function(x) paste0("×", decimal(2^x, 1))) +
   rotulos(
-    title = "Las palabras que más suben y más bajan en el texto corrido",
-    subtitle = sprintf("Razón suavizada entre la tasa de 2023-2026 y la de 2019-2021; las %d con mayor estadístico en cada sentido", PALABRAS_POR_LADO),
-    x = "Cuántas veces más frecuente en 2023-2026", y = NULL
+    title = tr("Las palabras que más suben y más bajan en el texto corrido", "The words that rise and fall most in the running text"),
+    subtitle = sprintf(tr("Razón suavizada entre la tasa de 2023-2026 y la de 2019-2021; las %d con mayor estadístico en cada sentido",
+                          "Smoothed ratio of the 2023-2026 rate to the 2019-2021 rate; the %d with the largest statistic in each direction"),
+                       PALABRAS_POR_LADO),
+    x = tr("Cuántas veces más frecuente en 2023-2026", "How many times more frequent in 2023-2026"), y = NULL
   )
 guardar(fig_palabras, "fig_palabras.png", alto = 4.8)
 
@@ -184,11 +198,14 @@ propias <- leer("logodds_resumenes.csv") |>
 set.seed(SEMILLA)
 fig_nube <- ggplot(propias, aes(label = palabra, size = abs(z), colour = ventana)) +
   geom_text_wordcloud(family = "sans") +
-  facet_wrap(~ventana, labeller = as_labeller(c("2018-2021" = "Más propias de 2018-2021", "2023-2026" = "Más propias de 2023-2026"))) +
+  facet_wrap(~ventana, labeller = as_labeller(tr(c("2018-2021" = "Más propias de 2018-2021", "2023-2026" = "Más propias de 2023-2026"),
+                                                 c("2018-2021" = "Most typical of 2018-2021", "2023-2026" = "Most typical of 2023-2026")))) +
   scale_size_area(max_size = 6) +
   scale_colour_manual(values = c("2018-2021" = GRIS, "2023-2026" = NARANJA), guide = "none") +
   rotulos(
-    title = "Las 40 palabras más propias de los resúmenes de cada ventana",
-    subtitle = "El tamaño es la razón de momios ponderada; los tamaños se comparan dentro de cada panel"
+    title = sprintf(tr("Las %d palabras más propias de los resúmenes de cada ventana", "The %d most typical words of the abstracts of each window"),
+                    max(table(propias$ventana))),
+    subtitle = tr("El tamaño es la razón de momios logarítmica ponderada (|z|); los tamaños se comparan dentro de cada panel",
+                  "Size is the weighted log-odds ratio (|z|); sizes are compared within each panel")
   )
 guardar(fig_nube, "fig_nube.png", alto = 3.8)
